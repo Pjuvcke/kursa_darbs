@@ -1,7 +1,7 @@
-import { useGlobalContext } from "../Context";
+import { useSelector } from "react-redux";
 
 function Header() {
-  const { user } = useGlobalContext();
+  const { user } = useSelector((store) => store.main);
 
   return (
     <header>

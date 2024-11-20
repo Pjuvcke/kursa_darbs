@@ -1,0 +1,40 @@
+/* Form div */
+
+.question-div {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Form */
+form {
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid gray;
+  border-radius: 4px;
+}
+
+/* Label */
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+/* Textarea  */
+textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid gray;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}

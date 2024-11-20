@@ -1,0 +1,74 @@
+/* Header */
+header {
+  background-color: rgba(226, 205, 19);
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.title {
+  padding-left: 20px;
+  padding-right: 10px;
+}
+header button {
+  cursor: pointer;
+  background-color: rgb(245, 237, 165);
+  border: 2px solid rgb(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+header button:hover {
+  border-color: black;
+}
+
+/* Main */
+.above-qtn-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+/* Questionnaire */
+
+.qtn-small {
+  border: 2px solid rgb(0, 0, 0, 0.75);
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+}
+
+/*Create a questionnaire */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal form textarea {
+  padding: 5px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  min-height: 60px;
+  resize: vertical;
+}
