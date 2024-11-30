@@ -15,36 +15,3 @@
   padding: 10px;
   display: flex;
 }
-
-/*Create a questionnaire */
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.modal {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-}
-.modal form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.modal form textarea {
-  padding: 5px;
-  font-size: 16px;
-  margin-bottom: 15px;
-  min-height: 60px;
-  resize: vertical;
-}

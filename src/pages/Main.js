@@ -10,8 +10,6 @@ function Main() {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
 
-  console.log(data);
-
   const navigate = useNavigate();
   const navigationBtn = (link) => {
     navigate(link);
@@ -22,13 +20,12 @@ function Main() {
   };
 
   const addQtn = () => {
-    //Pirms veido jaunu čupiņu, uzprasīs čupiņas title
     formToggle();
   };
+
   const handleChange = (e) => {
     setTitle(e.target.value);
   };
-
   const handleClosed = () => {
     formToggle();
     setTitle("");
@@ -37,13 +34,13 @@ function Main() {
   const addQtnSubmit = (e) => {
     e.preventDefault();
     formToggle();
-    navigationBtn(`/create-a-questionnaire/${title}`);
+    navigationBtn(`/manage-a-questionnaire/${title}`);
   };
 
   return (
     <>
       <Header />
-      <main>
+      <main className="Main">
         <div className="above-qtn-list">
           <h3>Your questionnaires:</h3>
           <button onClick={addQtn}>Create a questionnaire</button>

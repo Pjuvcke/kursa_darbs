@@ -12,6 +12,12 @@ code {
     monospace;
 }
 
+.custom-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
 /* Header */
 header {
   background-color: rgba(226, 205, 19);
@@ -34,9 +40,37 @@ header button:hover {
 .title {
   padding-left: 20px;
   padding-right: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 24px;
-  color: black;
-  font-weight: bold;
+}
+
+/* Modal style */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal form textarea {
+  padding: 5px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  min-height: 60px;
+  resize: vertical;
 }

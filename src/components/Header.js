@@ -9,17 +9,19 @@ function Header() {
   };
 
   return (
-    <header>
-      <a
-        href="/"
-        onClick={(e) => {
-          e.preventDefault();
-          navigationBtn("/");
-        }}
-        className="title"
-      >
-        LAPAS NOSAUKUMS
-      </a>
+    <header className="title">
+      <h2>
+        <a
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            navigationBtn("/");
+          }}
+          className="custom-link"
+        >
+          LAPAS NOSAUKUMS
+        </a>
+      </h2>
 
       <h3>Welcome, {user}!</h3>
       {user === "Guest" ? (
