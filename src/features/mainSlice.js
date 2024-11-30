@@ -11,8 +11,13 @@ const mainSlice = createSlice({
   initialState,
   reducers: {
     addQuestionnaire: (state, action) => {
+      console.log(action.payload);
       state.data.push(action.payload);
     },
+    // updateQuestionnaire: (state, action) => {
+    //   const item = state.data.find((item) => item.id === action.payload.id);
+    //   item.content = action.payload.content;
+    // },
   },
 });
 

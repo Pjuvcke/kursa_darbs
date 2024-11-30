@@ -1,7 +1,7 @@
 const data = [
   {
     id: "1",
-    title: "Testing",
+    title: "First sample",
     content: [
       {
         question: "What is green?",
@@ -15,7 +15,7 @@ const data = [
   },
   {
     id: "2",
-    title: "Second test",
+    title: "Second sample",
     content: [
       {
         question: "When is it cold?",

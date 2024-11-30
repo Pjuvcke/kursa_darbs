@@ -14,7 +14,10 @@ root.render(
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/create-a-questionnaire" element={<CreateQtn />} />
+          <Route
+            path="/create-a-questionnaire/:newTitle"
+            element={<CreateQtn />}
+          />
         </Routes>
       </Router>
     </Provider>

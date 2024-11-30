@@ -1,11 +1,26 @@
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const { user } = useSelector((store) => store.main);
+  const navigate = useNavigate();
+  const navigationBtn = (link) => {
+    navigate(link);
+  };
 
   return (
     <header>
-      <h2 className="title">LAPAS NOSAUKUMS</h2>
+      <a
+        href="/"
+        onClick={(e) => {
+          e.preventDefault();
+          navigationBtn("/");
+        }}
+        className="title"
+      >
+        LAPAS NOSAUKUMS
+      </a>
+
       <h3>Welcome, {user}!</h3>
       {user === "Guest" ? (
         <div className="log-btns">

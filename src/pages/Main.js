@@ -1,16 +1,16 @@
 import "./Main.css";
 import Header from "../components/Header";
 import QtnSmall from "../components/QtnSmall";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { addQuestionnaire } from "../features/mainSlice";
 
 function Main() {
   const { data } = useSelector((store) => store.main);
   const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState("");
 
-  const dispatch = useDispatch();
+  console.log(data);
 
   const navigate = useNavigate();
   const navigationBtn = (link) => {
@@ -25,17 +25,19 @@ function Main() {
     //Pirms veido jaunu čupiņu, uzprasīs čupiņas title
     formToggle();
   };
+  const handleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleClosed = () => {
+    formToggle();
+    setTitle("");
+  };
+
   const addQtnSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addQuestionnaire({
-        id: Date.now(),
-        title: e.target.value,
-        content: [],
-      })
-    );
     formToggle();
-    navigationBtn("/create-a-questionnaire");
+    navigationBtn(`/create-a-questionnaire/${title}`);
   };
 
   return (
@@ -57,8 +59,16 @@ function Main() {
           <div className="modal">
             <h3>Enter the name of a new questionnaire:</h3>
             <form onSubmit={addQtnSubmit}>
-              <textarea rows="1" name="title" id="title" />
+              <textarea
+                rows="1"
+                name="title"
+                id="title"
+                value={title}
+                onChange={handleChange}
+                required
+              />
               <button type="submit">Create a new questionnaire!</button>
+              <button onClick={handleClosed}>Cancel</button>
             </form>
           </div>
         </div>
