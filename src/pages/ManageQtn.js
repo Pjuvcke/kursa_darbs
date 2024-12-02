@@ -52,6 +52,7 @@ function ManageQtn() {
   const [editTitle, setEditTitle] = useState(false);
   const [editQuestion, setEditQuestion] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState("");
+  const [index, setIndex] = useState();
   const [updatedItem, setUpdatedItem] = useState({
     question: "",
     answer: "",
@@ -60,16 +61,25 @@ function ManageQtn() {
     setEditTitle(true);
     setUpdatedTitle(qtn.title);
   };
-  const openEditQuestion = (item) => {
-    setEditTitle(true);
+  const openEditQuestion = (received_item, received_index) => {
+    setEditQuestion(true);
+    setIndex(received_index);
+    setUpdatedItem({
+      question: received_item.question,
+      answer: received_item.answer,
+    });
   };
   const handleEditChange = (e) => {
     if (e.target.name === "title") {
       setUpdatedTitle(e.target.value);
+    } else {
+      setUpdatedItem({
+        ...updatedItem,
+        [e.target.name]: e.target.value,
+      });
     }
   };
   const handleEdited = (e) => {
-    console.log("ieksa handleEdited");
     e.preventDefault();
     if (editTitle) {
       setQtn({
@@ -79,6 +89,12 @@ function ManageQtn() {
       setEditTitle(false);
     } else {
       setEditQuestion(false);
+      setQtn({
+        ...qtn,
+        content: qtn.content.map((item, idx) =>
+          idx === index ? updatedItem : item
+        ),
+      });
     }
   };
   const handleClosed = () => {
@@ -94,8 +110,10 @@ function ManageQtn() {
       <Header />
       <main className="ManageQtn">
         <div className="question-div">
-          <h3>Title: {qtn.title}</h3>
-          <button onClick={openEditTitle}>Edit</button>
+          <div className="title">
+            <h3>Title: {qtn.title}</h3>
+            <button onClick={openEditTitle}>Edit</button>
+          </div>
           <form onSubmit={handleSubmit}>
             <label htmlFor="question">Question:</label>
             <textarea
@@ -113,20 +131,27 @@ function ManageQtn() {
               onChange={handleChange}
               required
             />
-            <button type="submit">Submit</button>
+            <button type="submit">Add question</button>
           </form>
           <button className="finish" onClick={handleFinish}>
             Finished!
           </button>
         </div>
         <div className="created-questions">
-          <h3>Your questions:</h3>
+          {qtn.content.length === 0 ? (
+            <h3>Add some questions!</h3>
+          ) : (
+            <h3>Your questions:</h3>
+          )}
           <div className="question-box">
             {qtn.content.map((item, index) => (
-              <div className="question" id={`question-${index}`}>
-                <h4>{item.question}</h4>
-                <p>{item.answer}</p>
-                <button onClick={() => openEditQuestion(item)}>Edit</button>
+              <div className="question" key={index}>
+                <h4 style={{ whiteSpace: "pre-line" }}>{item.question}</h4>
+                <p style={{ whiteSpace: "pre-line" }}>{item.answer}</p>
+
+                <button onClick={() => openEditQuestion(item, index)}>
+                  Edit
+                </button>
               </div>
             ))}
           </div>
@@ -152,7 +177,7 @@ function ManageQtn() {
                   <textarea
                     id="question"
                     name="question"
-                    value={item.question}
+                    value={updatedItem.question}
                     onChange={handleEditChange}
                     required
                   />
@@ -160,7 +185,7 @@ function ManageQtn() {
                   <textarea
                     id="answer"
                     name="answer"
-                    value={item.answer}
+                    value={updatedItem.answer}
                     onChange={handleEditChange}
                     required
                   />

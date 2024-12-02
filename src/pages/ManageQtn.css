@@ -18,6 +18,11 @@
   min-width: 250px;
   padding: 20px;
 }
+.question-div .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Form */
 form {
@@ -62,10 +67,6 @@ textarea {
   min-height: 100vh;
   min-width: 250px;
   padding: 20px;
-}
-
-.question-box {
-  padding: 5px;
 }
 
 .question-box .question {

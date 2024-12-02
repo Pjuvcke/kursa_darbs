@@ -11,6 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+br {
+  line-height: 0;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
 
 .custom-link {
   cursor: pointer;
