@@ -122,8 +122,8 @@ function ManageQtn() {
         <div className="created-questions">
           <h3>Your questions:</h3>
           <div className="question-box">
-            {qtn.content.map((item) => (
-              <div className="question">
+            {qtn.content.map((item, index) => (
+              <div className="question" id={`question-${index}`}>
                 <h4>{item.question}</h4>
                 <p>{item.answer}</p>
                 <button onClick={() => openEditQuestion(item)}>Edit</button>
