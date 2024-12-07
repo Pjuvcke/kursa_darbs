@@ -1,29 +1,50 @@
 import "./ManageQtn.css";
 import Header from "../components/Header";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { addQuestionnaire } from "../features/mainSlice";
+import { useEffect } from "react";
+
+import {
+  saveDataToIndexedDB,
+  loadDataFromIndexedDB,
+} from "../features/mainSlice";
+import { toggleLoaded } from "../features/mainSlice";
 
 function ManageQtn() {
+  const { test_data, isLoaded } = useSelector((store) => store.main);
   const { newTitle } = useParams();
+  const dispatch = useDispatch();
+
   const [qtn, setQtn] = useState({
     id: Date.now(),
     title: newTitle,
     content: [],
   });
+
+  useEffect(() => {
+    if (!isLoaded) {
+      dispatch(loadDataFromIndexedDB());
+    } else {
+      const manageQtn = test_data.find((item) => item.title === newTitle);
+      if (manageQtn) {
+        setQtn(manageQtn);
+      }
+    }
+  }, [dispatch, isLoaded]);
+
   const [item, setItem] = useState({
     question: "",
     answer: "",
   });
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const navigationBtn = (link) => {
     navigate(link);
   };
 
-  //ADDING A QUESTION
+  //JAUTĀJUMA PIEVIENOŠANA
   const handleChange = (e) => {
     setItem({
       ...item,
@@ -44,11 +65,12 @@ function ManageQtn() {
   };
   const handleFinish = () => {
     console.log(qtn);
-    dispatch(addQuestionnaire(qtn));
+    dispatch(toggleLoaded(false));
+    dispatch(saveDataToIndexedDB(qtn));
     navigationBtn("/");
   };
 
-  //EDITING A QUESTION
+  //JAUTĀJUMA LABOŠANA
   const [editTitle, setEditTitle] = useState(false);
   const [editQuestion, setEditQuestion] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState("");
@@ -60,6 +82,13 @@ function ManageQtn() {
   const openEditTitle = () => {
     setEditTitle(true);
     setUpdatedTitle(qtn.title);
+  };
+
+  const deleteQuestion = (received_item) => {
+    setQtn((prevQtn) => ({
+      ...prevQtn,
+      content: prevQtn.content.filter((item) => item !== received_item),
+    }));
   };
   const openEditQuestion = (received_item, received_index) => {
     setEditQuestion(true);
@@ -79,6 +108,7 @@ function ManageQtn() {
       });
     }
   };
+
   const handleEdited = (e) => {
     e.preventDefault();
     if (editTitle) {
@@ -104,6 +134,14 @@ function ManageQtn() {
       setEditQuestion(false);
     }
   };
+
+  if (!isLoaded) {
+    return (
+      <div className="loading-overlay">
+        <h2 className="loading-text">Loading...</h2>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -152,6 +190,7 @@ function ManageQtn() {
                 <button onClick={() => openEditQuestion(item, index)}>
                   Edit
                 </button>
+                <button onClick={() => deleteQuestion(item)}>Delete</button>
               </div>
             ))}
           </div>

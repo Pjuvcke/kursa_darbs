@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ManageQtn from "./pages/ManageQtn";
 import Main from "./pages/Main";
+import ViewQtn from "./pages/ViewQtn";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,9 +16,10 @@ root.render(
         <Routes>
           <Route path="/" element={<Main />} />
           <Route
-            path="/manage-a-questionnaire/:newTitle"
+            path="/manage-questionnaire/:newTitle"
             element={<ManageQtn />}
           />
+          <Route path="/view-questionnaire/:id" element={<ViewQtn />} />
         </Routes>
       </Router>
     </Provider>

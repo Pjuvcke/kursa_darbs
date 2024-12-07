@@ -1,6 +1,6 @@
 const data = [
   {
-    id: "1",
+    id: 1,
     title: "First sample",
     content: [
       {
@@ -14,7 +14,7 @@ const data = [
     ],
   },
   {
-    id: "2",
+    id: 2,
     title: "Second sample",
     content: [
       {
