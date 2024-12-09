@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addQuestionnaire } from "../features/mainSlice";
 import { useEffect } from "react";
 
 import {
@@ -25,14 +24,16 @@ function ManageQtn() {
 
   useEffect(() => {
     if (!isLoaded) {
+      console.log("Dati nav ieladeti");
       dispatch(loadDataFromIndexedDB());
     } else {
       const manageQtn = test_data.find((item) => item.title === newTitle);
       if (manageQtn) {
+        console.log("Ir managing: ", manageQtn);
         setQtn(manageQtn);
       }
     }
-  }, [dispatch, isLoaded]);
+  }, [dispatch, isLoaded, newTitle, test_data]);
 
   const [item, setItem] = useState({
     question: "",

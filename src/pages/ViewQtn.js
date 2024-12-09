@@ -1,7 +1,8 @@
+import "./ViewQtn.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { loadDataFromIndexedDB } from "../features/mainSlice";
 
 function ViewQtn() {
@@ -9,6 +10,8 @@ function ViewQtn() {
   const realId = parseInt(id);
   const { test_data, isLoaded } = useSelector((store) => store.main);
   const qtn = test_data.find((item) => item.id === realId);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,11 +22,10 @@ function ViewQtn() {
   useEffect(() => {
     if (!isLoaded) {
       dispatch(loadDataFromIndexedDB());
-    } else {
-      console.log(qtn.content);
     }
   }, [dispatch, isLoaded]);
 
+  const toggleModal = () => setIsOpen(!isOpen);
   if (!isLoaded) {
     return (
       <div className="loading-overlay">
@@ -37,19 +39,30 @@ function ViewQtn() {
       <Header />
       <main className="ViewQtn">
         <h2>{qtn.title}</h2>
+        <button onClick={toggleModal}>Start learning!</button>
         <button
           onClick={() => navigateBtn(`/manage-questionnaire/${qtn.title}`)}
         >
           Manage your questionnaire
         </button>
         <h3>Your questions:</h3>
-        {qtn.content.map((item) => (
-          <div>
-            <h4>{item.question}</h4>
-            <p>{item.answer}</p>
-          </div>
-        ))}
+        <div className="view-question-overlay">
+          {qtn.content.map((item, index) => (
+            <div key={index} className="view-question">
+              <h4 style={{ whiteSpace: "pre-line" }}>{item.question}</h4>
+              <p style={{ whiteSpace: "pre-line" }}>{item.answer}</p>
+            </div>
+          ))}
+        </div>
       </main>
+      {isOpen && (
+        <div className="overlay">
+          <div className="modal">
+            <h3>Choose desired settings:</h3>
+            <button onClick={toggleModal}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

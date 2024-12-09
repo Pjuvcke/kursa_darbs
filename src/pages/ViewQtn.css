@@ -1,0 +1,21 @@
+/* VIEW QUESTIONNAIRE */
+
+/* Single question */
+.view-question-overlay {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 50px;
+}
+.view-question {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid rgb(0, 0, 0, 0.75);
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  min-width: 200px;
+  padding: 10px;
+}

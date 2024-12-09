@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const { user } = useSelector((store) => store.main);
+  // const { user } = useSelector((store) => store.main);
   const navigate = useNavigate();
   const navigationBtn = (link) => {
     navigate(link);
@@ -23,7 +23,7 @@ function Header() {
         </a>
       </h2>
 
-      <h3>Welcome, {user}!</h3>
+      {/* <h3>Welcome, {user}!</h3>
       {user === "Guest" ? (
         <div className="log-btns">
           <button>LOGIN</button>
@@ -31,7 +31,7 @@ function Header() {
         </div>
       ) : (
         <button>LOGOUT</button>
-      )}
+      )} */}
     </header>
   );
 }
