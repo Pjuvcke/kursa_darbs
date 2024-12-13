@@ -12,6 +12,8 @@ function ViewQtn() {
   const qtn = test_data.find((item) => item.id === realId);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [mode, setMode] = useState("In order");
+  const [isLearning, setIsLearning] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,6 +28,16 @@ function ViewQtn() {
   }, [dispatch, isLoaded]);
 
   const toggleModal = () => setIsOpen(!isOpen);
+
+  const handleChange = (e) => {
+    setMode(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsOpen(false);
+    setIsLearning(true);
+  };
+
   if (!isLoaded) {
     return (
       <div className="loading-overlay">
@@ -37,31 +49,66 @@ function ViewQtn() {
   return (
     <div>
       <Header />
-      <main className="ViewQtn">
-        <h2>{qtn.title}</h2>
-        <button onClick={toggleModal}>Start learning!</button>
-        <button
-          onClick={() => navigateBtn(`/manage-questionnaire/${qtn.title}`)}
-        >
-          Manage your questionnaire
-        </button>
-        <h3>Your questions:</h3>
-        <div className="view-question-overlay">
-          {qtn.content.map((item, index) => (
-            <div key={index} className="view-question">
-              <h4 style={{ whiteSpace: "pre-line" }}>{item.question}</h4>
-              <p style={{ whiteSpace: "pre-line" }}>{item.answer}</p>
+      {!isLearning ? (
+        <>
+          {" "}
+          <main className="ViewQtn">
+            <h2>{qtn.title}</h2>
+            <button onClick={toggleModal}>Start learning!</button>
+            <button
+              onClick={() => navigateBtn(`/manage-questionnaire/${qtn.title}`)}
+            >
+              Manage your questionnaire
+            </button>
+            <h3>Your questions:</h3>
+            <div className="view-question-overlay">
+              {qtn.content.map((item, index) => (
+                <div key={index} className="view-question">
+                  <h4 style={{ whiteSpace: "pre-line" }}>{item.question}</h4>
+                  <p style={{ whiteSpace: "pre-line" }}>{item.answer}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </main>
-      {isOpen && (
-        <div className="overlay">
-          <div className="modal">
-            <h3>Choose desired settings:</h3>
-            <button onClick={toggleModal}>Cancel</button>
-          </div>
-        </div>
+          </main>
+          {isOpen && (
+            <div className="overlay">
+              <div className="modal">
+                <h3>Choose desired settings:</h3>
+                <form onSubmit={handleSubmit}>
+                  <fieldset>
+                    <legend>Choose the mode:</legend>
+
+                    <label>
+                      <input
+                        type="radio"
+                        value="In order"
+                        onChange={handleChange}
+                        name="mode"
+                        defaultChecked
+                      />
+                      In order
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        value="Random"
+                        onChange={handleChange}
+                        name="mode"
+                      />
+                      Random
+                    </label>
+                  </fieldset>
+                  <button type="submit">Start!</button>
+                  <button onClick={toggleModal}>Cancel</button>
+                </form>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <h1>Learning! Current mode: {mode}</h1>
+        </>
       )}
     </div>
   );
