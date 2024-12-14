@@ -11,10 +11,6 @@ function ViewQtn() {
   const { test_data, isLoaded } = useSelector((store) => store.main);
   const qtn = test_data.find((item) => item.id === realId);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState("In order");
-  const [isLearning, setIsLearning] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const navigateBtn = (link) => {
@@ -22,27 +18,68 @@ function ViewQtn() {
   };
 
   useEffect(() => {
+    console.log("Is loaded: ", isLoaded);
     if (!isLoaded) {
       dispatch(loadDataFromIndexedDB());
     }
   }, [dispatch, isLoaded]);
 
+  const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => setIsOpen(!isOpen);
 
+  const [mode, setMode] = useState("In order");
   const handleChange = (e) => {
     setMode(e.target.value);
   };
+  const [isLearning, setIsLearning] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsOpen(false);
     setIsLearning(true);
   };
 
+  //Jautājuma rādīšana
+  const [curQuestion, setCurQuestion] = useState(
+    !isLoaded ? "" : qtn.content[0]
+  );
+  const [index, setIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+  const handleNext = (response) => {
+    if (mode === "In order") {
+      const curIndex = index + 1;
+      if (curIndex !== qtn.content.length) {
+        setIndex(curIndex);
+        setCurQuestion(qtn.content[curIndex]);
+      } else {
+        handleReturn();
+      }
+    }
+  };
+
+  const flipCard = () => {
+    setFlipped(!flipped);
+  };
+
+  const handleReturn = () => {
+    setIsLearning(false);
+    setIndex(0);
+    setCurQuestion(qtn.content[0]);
+  };
+
+  const [showAnswer, setShowAnswer] = useState(false);
+
+  const toggleAnswer = () => {
+    setShowAnswer(!showAnswer);
+  };
+
   if (!isLoaded) {
     return (
-      <div className="loading-overlay">
-        <h2 className="loading-text">Loading...</h2>
-      </div>
+      <>
+        <Header />
+        <div className="loading-overlay">
+          <h2 className="loading-text">Loading...</h2>
+        </div>
+      </>
     );
   }
 
@@ -51,7 +88,6 @@ function ViewQtn() {
       <Header />
       {!isLearning ? (
         <>
-          {" "}
           <main className="ViewQtn">
             <h2>{qtn.title}</h2>
             <button onClick={toggleModal}>Start learning!</button>
@@ -61,11 +97,42 @@ function ViewQtn() {
               Manage your questionnaire
             </button>
             <h3>Your questions:</h3>
+
+            <div className="slider-container">
+              <span>Show answers</span>
+              <div
+                className="slider-bar"
+                style={{
+                  backgroundColor: showAnswer ? "#4caf50" : "#ccc",
+                }}
+                onClick={toggleAnswer}
+                role="switch"
+                aria-checked={showAnswer}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") toggleAnswer();
+                }}
+              >
+                <span
+                  className="slider-ball"
+                  style={{
+                    left: showAnswer ? "22px" : "2px",
+                  }}
+                ></span>
+              </div>
+            </div>
             <div className="view-question-overlay">
               {qtn.content.map((item, index) => (
                 <div key={index} className="view-question">
                   <h4 style={{ whiteSpace: "pre-line" }}>{item.question}</h4>
-                  <p style={{ whiteSpace: "pre-line" }}>{item.answer}</p>
+                  <p
+                    style={{
+                      whiteSpace: "pre-line",
+                      visibility: showAnswer ? "visible" : "hidden",
+                    }}
+                  >
+                    {item.answer}
+                  </p>
                 </div>
               ))}
             </div>
@@ -76,7 +143,7 @@ function ViewQtn() {
                 <h3>Choose desired settings:</h3>
                 <form onSubmit={handleSubmit}>
                   <fieldset>
-                    <legend>Choose the mode:</legend>
+                    <legend>Choose desired mode:</legend>
 
                     <label>
                       <input
@@ -106,9 +173,22 @@ function ViewQtn() {
           )}
         </>
       ) : (
-        <>
+        <main className="ViewQtn">
           <h1>Learning! Current mode: {mode}</h1>
-        </>
+          <button onClick={handleReturn}>Return</button>
+          {!flipped ? (
+            <h1>{curQuestion.question}</h1>
+          ) : (
+            <h1>{curQuestion.answer}</h1>
+          )}
+          <div>
+            <button onClick={() => handleNext(false)}>Incorrect</button>
+            <button onClick={flipCard}>
+              Show {flipped ? "question" : "anser"}
+            </button>
+            <button onClick={() => handleNext(true)}>Correct</button>
+          </div>
+        </main>
       )}
     </div>
   );

@@ -13,11 +13,17 @@ function Header() {
       <h2>
         <a
           href="/"
+          className="custom-link"
           onClick={(e) => {
             e.preventDefault();
             navigationBtn("/");
           }}
-          className="custom-link"
+          onKeyDown={(e) => {
+            if (e.key === " ") {
+              e.preventDefault();
+              navigationBtn("/");
+            }
+          }}
         >
           LAPAS NOSAUKUMS
         </a>
