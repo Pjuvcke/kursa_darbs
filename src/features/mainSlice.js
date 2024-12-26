@@ -18,10 +18,6 @@ const mainSlice = createSlice({
       console.log("add: ", action.payload);
       state.test_data.push(action.payload);
     },
-    // updateQuestionnaire: (state, action) => {
-    //   const item = state.data.find((item) => item.id === action.payload.id);
-    //   item.content = action.payload.content;
-    // },
     getData(state, action) {
       state.test_data = action.payload;
     },

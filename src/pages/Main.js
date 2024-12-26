@@ -17,9 +17,15 @@ function Main() {
   const { test_data, isLoaded } = useSelector((store) => store.main);
   const { data } = useSelector((store) => store.main);
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
+  const [qtn, setQtn] = useState({
+    id: Date.now(),
+    title: "",
+    content: [],
+  });
 
   const dispatch = useDispatch();
+  //Data updates
   useEffect(() => {
     if (isLoaded) return;
     console.log("garam loaded");
@@ -36,6 +42,7 @@ function Main() {
     saveData();
   }, [dispatch, data, test_data, isLoaded]);
 
+  //useEffect for testing
   useEffect(() => {
     console.log("idb outputs: ", test_data);
     console.log("isLoaded: ", isLoaded);
@@ -46,6 +53,7 @@ function Main() {
     navigate(link);
   };
 
+  //Functions for creating questionnaire
   const formToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -55,17 +63,18 @@ function Main() {
   };
 
   const handleChange = (e) => {
-    setTitle(e.target.value);
+    setQtn({ ...qtn, title: e.target.value });
   };
   const handleClosed = () => {
     formToggle();
-    setTitle("");
+    setQtn({ ...qtn, title: "" });
   };
 
   const addQtnSubmit = (e) => {
     e.preventDefault();
     formToggle();
-    navigationBtn(`/manage-questionnaire/${title}`);
+    dispatch(saveDataToIndexedDB(qtn));
+    navigationBtn(`/manage-questionnaire/${qtn.id}`);
   };
 
   return (
@@ -91,7 +100,7 @@ function Main() {
                 rows="1"
                 name="title"
                 id="title"
-                value={title}
+                value={qtn.title}
                 onChange={handleChange}
                 required
               />

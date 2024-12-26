@@ -13,27 +13,26 @@ import { toggleLoaded } from "../features/mainSlice";
 
 function ManageQtn() {
   const { test_data, isLoaded } = useSelector((store) => store.main);
-  const { newTitle } = useParams();
+  const { id } = useParams();
+  const manageId = parseInt(id);
   const dispatch = useDispatch();
-
   const [qtn, setQtn] = useState({
-    id: Date.now(),
-    title: newTitle,
-    content: [],
+    id: -1,
   });
 
+  //Data fetching
   useEffect(() => {
     if (!isLoaded) {
       console.log("Dati nav ieladeti");
       dispatch(loadDataFromIndexedDB());
     } else {
-      const manageQtn = test_data.find((item) => item.title === newTitle);
+      const manageQtn = test_data.find((item) => item.id === manageId);
       if (manageQtn) {
         console.log("Ir managing: ", manageQtn);
         setQtn(manageQtn);
       }
     }
-  }, [dispatch, isLoaded, newTitle, test_data]);
+  }, [dispatch, isLoaded, manageId, test_data]);
 
   const [item, setItem] = useState({
     question: "",
@@ -45,7 +44,7 @@ function ManageQtn() {
     navigate(link);
   };
 
-  //JAUTĀJUMA PIEVIENOŠANA
+  //Question adding
   const handleChange = (e) => {
     setItem({
       ...item,
@@ -71,7 +70,7 @@ function ManageQtn() {
     navigationBtn("/");
   };
 
-  //JAUTĀJUMA LABOŠANA
+  //Question, title editing
   const [editTitle, setEditTitle] = useState(false);
   const [editQuestion, setEditQuestion] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState("");
@@ -136,7 +135,7 @@ function ManageQtn() {
     }
   };
 
-  if (!isLoaded) {
+  if (!isLoaded || qtn.id === -1) {
     return (
       <div className="loading-overlay">
         <h2 className="loading-text">Loading...</h2>
