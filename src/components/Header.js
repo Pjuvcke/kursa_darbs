@@ -1,11 +1,14 @@
-// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
-  // const { user } = useSelector((store) => store.main);
   const navigate = useNavigate();
   const navigationBtn = (link) => {
     navigate(link);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigationBtn("/");
   };
 
   return (
@@ -14,30 +17,16 @@ function Header() {
         <a
           href="/"
           className="custom-link"
-          onClick={(e) => {
-            e.preventDefault();
-            navigationBtn("/");
-          }}
+          onClick={handleClick}
           onKeyDown={(e) => {
             if (e.key === " ") {
-              e.preventDefault();
-              navigationBtn("/");
+              handleClick(e);
             }
           }}
         >
-          LAPAS NOSAUKUMS
+          Quizzy
         </a>
       </h2>
-
-      {/* <h3>Welcome, {user}!</h3>
-      {user === "Guest" ? (
-        <div className="log-btns">
-          <button>LOGIN</button>
-          <button className="sign-up">SIGN UP</button>
-        </div>
-      ) : (
-        <button>LOGOUT</button>
-      )} */}
     </header>
   );
 }

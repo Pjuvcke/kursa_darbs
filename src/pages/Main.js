@@ -25,7 +25,7 @@ function Main() {
   });
 
   const dispatch = useDispatch();
-  //Data updates
+  //Data fetching
   useEffect(() => {
     if (isLoaded) return;
     console.log("garam loaded");
@@ -74,6 +74,7 @@ function Main() {
     e.preventDefault();
     formToggle();
     dispatch(saveDataToIndexedDB(qtn));
+    dispatch(toggleLoaded(false));
     navigationBtn(`/manage-questionnaire/${qtn.id}`);
   };
 

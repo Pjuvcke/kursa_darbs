@@ -1,3 +1,4 @@
+/* General */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 400px;
 }
 
 code {
@@ -28,28 +30,23 @@ br {
 header {
   background-color: rgba(226, 205, 19);
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  padding-left: 50px;
 }
-header button {
+header h2 {
+  padding: 10px;
   cursor: pointer;
-  background-color: rgb(245, 237, 165);
   border: 2px solid rgb(0, 0, 0, 0.5);
   border-radius: 5px;
 }
-header button:hover {
-  border-color: black;
-}
-.title {
-  padding-left: 50px;
-  padding-right: 10px;
+header h2:hover {
+  border: 2px solid rgb(0, 0, 0, 0.5);
+  background-color: rgb(245, 237, 165);
 }
 
 /* Modal style */
-
 .overlay {
   position: fixed;
   top: 0;

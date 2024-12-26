@@ -26,6 +26,8 @@ function ManageQtn() {
       console.log("Dati nav ieladeti");
       dispatch(loadDataFromIndexedDB());
     } else {
+      console.log("manageID: ", manageId);
+      console.log("testda: ", test_data);
       const manageQtn = test_data.find((item) => item.id === manageId);
       if (manageQtn) {
         console.log("Ir managing: ", manageQtn);
@@ -33,6 +35,11 @@ function ManageQtn() {
       }
     }
   }, [dispatch, isLoaded, manageId, test_data]);
+
+  useEffect(() => {
+    console.log("isLoaded:", isLoaded);
+    console.log("test_data:", test_data);
+  }, [isLoaded, test_data]);
 
   const [item, setItem] = useState({
     question: "",

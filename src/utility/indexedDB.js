@@ -4,7 +4,7 @@ const DB_name = "Qtn-store";
 const DB_version = 1;
 const Store_name = "data-store";
 
-//Atver un izveido
+//Open and create DB
 export const openDatabase = async () => {
   return openDB(DB_name, DB_version, {
     upgrade(db) {
@@ -18,7 +18,7 @@ export const openDatabase = async () => {
   });
 };
 
-// Saglabā datus db
+// Save/update data in DB
 export const saveToIndexedDB = async (data) => {
   const db = await openDatabase();
   const tx = db.transaction(Store_name, "readwrite");
@@ -27,7 +27,7 @@ export const saveToIndexedDB = async (data) => {
   await tx.done;
 };
 
-// Paņem datus no db
+// Get data from DB
 export const getFromIndexedDB = async () => {
   const db = await openDatabase();
   const tx = db.transaction(Store_name, "readonly");

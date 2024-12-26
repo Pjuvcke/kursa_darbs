@@ -8,6 +8,7 @@ function Test({ qtn, mode, setIsLearningInParent }) {
   const [wrongQuestions, setWrongQuestions] = useState([]);
   const [completed, setCompleted] = useState(false);
 
+  //Set up initial information
   useEffect(() => {
     if (mode === "In order") {
       setCurQuestion(qtn[0]);
@@ -19,6 +20,7 @@ function Test({ qtn, mode, setIsLearningInParent }) {
     }
   }, [mode, qtn]);
 
+  //Randomize the questions
   const shuffleQuestions = (arr) => {
     const shuffled = [...arr];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -30,6 +32,7 @@ function Test({ qtn, mode, setIsLearningInParent }) {
     return shuffled;
   };
 
+  //Handle question answers
   const handleNext = (response) => {
     if (!response) {
       setWrongQuestions([...wrongQuestions, curQuestion]);
@@ -46,14 +49,17 @@ function Test({ qtn, mode, setIsLearningInParent }) {
     console.log("Pirms/pec testa: ", wrongQuestions);
   }, [completed]);
 
+  //Show other side of the card
   const flipCard = () => {
     setFlipped(!flipped);
   };
 
+  //Handle returning to the questionnaire
   const handleReturn = () => {
     setIsLearningInParent(false);
   };
 
+  //Initialization of trying again
   const handleTryAgain = () => {
     setIndex(0);
     setWrongQuestions([]);
@@ -67,6 +73,7 @@ function Test({ qtn, mode, setIsLearningInParent }) {
     }
   };
 
+  //Initialization of answering wrong questions
   const handleWrong = () => {
     setIndex(0);
     setCompleted(false);
