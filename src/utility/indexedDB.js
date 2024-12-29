@@ -36,3 +36,12 @@ export const getFromIndexedDB = async () => {
   await tx.done;
   return data;
 };
+
+//Delete an entry from DB
+export const deleteFromIndexedDB = async (id) => {
+  const db = await openDatabase();
+  const tx = db.transaction(Store_name, "readwrite");
+  const store = tx.objectStore(Store_name);
+  await store.delete(id);
+  await tx.done;
+};

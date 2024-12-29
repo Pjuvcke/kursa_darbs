@@ -41,13 +41,14 @@ function Test({ qtn, mode, setIsLearningInParent }) {
     if (curIndex !== questionsInUse.length) {
       setIndex(curIndex);
       setCurQuestion(questionsInUse[curIndex]);
+      setFlipped(false);
     } else {
       setCompleted(true);
     }
   };
   useEffect(() => {
     console.log("Pirms/pec testa: ", wrongQuestions);
-  }, [completed]);
+  }, [completed, wrongQuestions]);
 
   //Show other side of the card
   const flipCard = () => {
@@ -64,6 +65,7 @@ function Test({ qtn, mode, setIsLearningInParent }) {
     setIndex(0);
     setWrongQuestions([]);
     setCompleted(false);
+    setFlipped(false);
     if (mode === "In order") {
       setCurQuestion(questionsInUse[0]);
     } else {
@@ -77,6 +79,7 @@ function Test({ qtn, mode, setIsLearningInParent }) {
   const handleWrong = () => {
     setIndex(0);
     setCompleted(false);
+    setFlipped(false);
     if (mode === "In order") {
       setCurQuestion(wrongQuestions[0]);
       setQuestionsInUse(wrongQuestions);
@@ -91,7 +94,7 @@ function Test({ qtn, mode, setIsLearningInParent }) {
 
   return (
     <>
-      <main className="ViewQtn">
+      <main className="ViewQtn-Test">
         <h1>Learning! Current mode: {mode}</h1>
         <button onClick={handleReturn}>Return</button>
         {!flipped ? (

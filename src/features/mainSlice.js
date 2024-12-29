@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { saveToIndexedDB, getFromIndexedDB } from "../utility/indexedDB";
+import {
+  saveToIndexedDB,
+  getFromIndexedDB,
+  deleteFromIndexedDB,
+} from "../utility/indexedDB";
 
 import data from "../data";
 
@@ -32,7 +36,7 @@ export const { addQuestionnaire, getData, addData, toggleLoaded } =
 
 export default mainSlice.reducer;
 
-// Darbošanās ar indexedDB
+// CRUD operations with indexedDB
 export const loadDataFromIndexedDB = () => async (dispatch) => {
   const data = await getFromIndexedDB();
   dispatch(getData(data));
@@ -41,4 +45,8 @@ export const loadDataFromIndexedDB = () => async (dispatch) => {
 
 export const saveDataToIndexedDB = (data) => async () => {
   await saveToIndexedDB(data);
+};
+
+export const deleteDataFromIndexedDB = (id) => async () => {
+  await deleteFromIndexedDB(id);
 };

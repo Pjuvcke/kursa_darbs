@@ -3,21 +3,18 @@ import Header from "../components/Header";
 import QtnSmall from "../components/QtnSmall";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
+  toggleLoaded,
   loadDataFromIndexedDB,
   saveDataToIndexedDB,
 } from "../features/mainSlice";
 import { getFromIndexedDB } from "../utility/indexedDB";
-import { toggleLoaded } from "../features/mainSlice";
 
 function Main() {
   const { test_data, isLoaded } = useSelector((store) => store.main);
   const { data } = useSelector((store) => store.main);
   const [isOpen, setIsOpen] = useState(false);
-  // const [title, setTitle] = useState("");
   const [qtn, setQtn] = useState({
     id: Date.now(),
     title: "",
@@ -105,8 +102,14 @@ function Main() {
                 onChange={handleChange}
                 required
               />
-              <button type="submit">Start creating a new questionnaire!</button>
-              <button onClick={handleClosed}>Cancel</button>
+              <div className="modal-buttons">
+                <button type="submit">
+                  Start creating a new questionnaire!
+                </button>
+                <button onClick={handleClosed} className="leave">
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>

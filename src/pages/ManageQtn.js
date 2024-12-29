@@ -1,15 +1,14 @@
 import "./ManageQtn.css";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
-
 import {
+  toggleLoaded,
   saveDataToIndexedDB,
   loadDataFromIndexedDB,
+  deleteDataFromIndexedDB,
 } from "../features/mainSlice";
-import { toggleLoaded } from "../features/mainSlice";
 
 function ManageQtn() {
   const { test_data, isLoaded } = useSelector((store) => store.main);
@@ -71,10 +70,15 @@ function ManageQtn() {
     });
   };
   const handleFinish = () => {
-    console.log(qtn);
+    console.log("Ieska finish: ", qtn);
     dispatch(toggleLoaded(false));
     dispatch(saveDataToIndexedDB(qtn));
     navigationBtn("/");
+  };
+  const deleteQtn = () => {
+    dispatch(deleteDataFromIndexedDB(manageId));
+    dispatch(toggleLoaded(false));
+    navigate("/");
   };
 
   //Question, title editing
@@ -144,9 +148,12 @@ function ManageQtn() {
 
   if (!isLoaded || qtn.id === -1) {
     return (
-      <div className="loading-overlay">
-        <h2 className="loading-text">Loading...</h2>
-      </div>
+      <>
+        <Header />
+        <div className="loading-overlay">
+          <h2 className="loading-text">Loading...</h2>
+        </div>
+      </>
     );
   }
 
@@ -168,7 +175,7 @@ function ManageQtn() {
               onChange={handleChange}
               required
             />
-            <label htmlFor="answer">Answer</label>
+            <label htmlFor="answer">Answer:</label>
             <textarea
               id="answer"
               name="answer"
@@ -178,9 +185,14 @@ function ManageQtn() {
             />
             <button type="submit">Add question</button>
           </form>
-          <button className="finish" onClick={handleFinish}>
-            Finished!
-          </button>
+          <div className="finish-buttons">
+            <button onClick={deleteQtn} className="leave">
+              Delete
+            </button>
+            <button className="finish" onClick={handleFinish}>
+              Save changes
+            </button>
+          </div>
         </div>
         <div className="created-questions">
           {qtn.content.length === 0 ? (
@@ -193,11 +205,17 @@ function ManageQtn() {
               <div className="question" key={index}>
                 <h4 style={{ whiteSpace: "pre-line" }}>{item.question}</h4>
                 <p style={{ whiteSpace: "pre-line" }}>{item.answer}</p>
-
-                <button onClick={() => openEditQuestion(item, index)}>
-                  Edit
-                </button>
-                <button onClick={() => deleteQuestion(item)}>Delete</button>
+                <div className="edit-buttons">
+                  <button onClick={() => openEditQuestion(item, index)}>
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteQuestion(item)}
+                    className="leave"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -215,6 +233,7 @@ function ManageQtn() {
                   id="title"
                   value={updatedTitle}
                   onChange={handleEditChange}
+                  className="edit-title-textarea"
                   required
                 />
               ) : (
@@ -225,6 +244,7 @@ function ManageQtn() {
                     name="question"
                     value={updatedItem.question}
                     onChange={handleEditChange}
+                    className="edit-question-textarea"
                     required
                   />
                   <label htmlFor="answer">Answer</label>
@@ -233,12 +253,21 @@ function ManageQtn() {
                     name="answer"
                     value={updatedItem.answer}
                     onChange={handleEditChange}
+                    className="edit-question-textarea"
                     required
                   />
                 </>
               )}
-              <button type="submit">Edit!</button>
-              <button onClick={handleClosed}>Cancel</button>
+              <div className="edit-modal-buttons">
+                <button type="submit">Edit!</button>
+                <button
+                  onClick={handleClosed}
+                  className="leave"
+                  style={{ padding: "5px 10px" }}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>
