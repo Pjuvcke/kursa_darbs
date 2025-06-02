@@ -10,6 +10,7 @@ import {
   saveDataToIndexedDB,
 } from "../features/mainSlice";
 import { getFromIndexedDB } from "../utility/indexedDB";
+import Error from "../components/Error";
 
 function Main() {
   const { test_data, isLoaded } = useSelector((store) => store.main);
@@ -20,16 +21,15 @@ function Main() {
     title: "",
     content: [],
   });
+  const [showError, setShowError] = useState(false);
 
   const dispatch = useDispatch();
   //Data fetching
   useEffect(() => {
     if (isLoaded) return;
-    console.log("garam loaded");
     const saveData = async () => {
       const db = await getFromIndexedDB();
       if (db.length === 0) {
-        console.log("esmu ieksa if length: ", db.length);
         data.map((item) => dispatch(saveDataToIndexedDB(item)));
       }
       dispatch(loadDataFromIndexedDB());
@@ -38,12 +38,6 @@ function Main() {
 
     saveData();
   }, [dispatch, data, test_data, isLoaded]);
-
-  //useEffect for testing
-  useEffect(() => {
-    console.log("idb outputs: ", test_data);
-    console.log("isLoaded: ", isLoaded);
-  }, [test_data, isLoaded]);
 
   const navigate = useNavigate();
   const navigationBtn = (link) => {
@@ -60,19 +54,34 @@ function Main() {
   };
 
   const handleChange = (e) => {
-    setQtn({ ...qtn, title: e.target.value });
+    const value = e.target.value;
+    setQtn({ ...qtn, title: value });
+    if (showError) {
+      if (value !== "") {
+        setShowError(false);
+      }
+    }
+    if (value === "") {
+      setShowError(true);
+    }
   };
   const handleClosed = () => {
     formToggle();
+    setShowError(false);
     setQtn({ ...qtn, title: "" });
   };
 
   const addQtnSubmit = (e) => {
-    e.preventDefault();
-    formToggle();
-    dispatch(saveDataToIndexedDB(qtn));
-    dispatch(toggleLoaded(false));
-    navigationBtn(`/manage-questionnaire/${qtn.id}`);
+    if (qtn.title !== "") {
+      e.preventDefault();
+      formToggle();
+      dispatch(saveDataToIndexedDB(qtn));
+      dispatch(toggleLoaded(false));
+      navigationBtn(`/manage-questionnaire/${qtn.id}`);
+    } else {
+      e.preventDefault();
+      setShowError(true);
+    }
   };
 
   return (
@@ -80,7 +89,11 @@ function Main() {
       <Header />
       <main className="Main">
         <div className="above-qtn-list">
-          <h3>Your questionnaires:</h3>
+          {test_data.length === 0 ? (
+            <h3>No questionnaires created!</h3>
+          ) : (
+            <h3>Your questionnaires:</h3>
+          )}
           <button onClick={addQtn}>Create a questionnaire</button>
         </div>
         <div className="qtn-list">
@@ -100,8 +113,12 @@ function Main() {
                 id="title"
                 value={qtn.title}
                 onChange={handleChange}
-                required
               />
+              {showError ? (
+                <Error errorClass="error-add" text="Title must be provided!" />
+              ) : (
+                <></>
+              )}
               <div className="modal-buttons">
                 <button type="submit">
                   Start creating a new questionnaire!

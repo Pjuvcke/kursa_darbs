@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { loadDataFromIndexedDB } from "../features/mainSlice";
+import { loadDataFromIndexedDB, setLastUsed } from "../features/mainSlice";
 import Test from "../components/Test";
 
 function ViewQtn() {
@@ -20,7 +20,6 @@ function ViewQtn() {
 
   //Data fetching
   useEffect(() => {
-    console.log("Is loaded: ", isLoaded);
     if (!isLoaded) {
       dispatch(loadDataFromIndexedDB());
     }
@@ -46,6 +45,7 @@ function ViewQtn() {
     e.preventDefault();
     setIsOpen(false);
     setIsLearning(true);
+    dispatch(setLastUsed(viewId));
   };
 
   if (!isLoaded) {

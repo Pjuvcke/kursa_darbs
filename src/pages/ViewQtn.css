@@ -114,3 +114,79 @@
 .qtn-start-modal button {
   padding: 5px 10px;
 }
+
+/* TEST STYLE */
+.ViewQtn-Test {
+  padding: 50px;
+}
+.test-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.test-header button {
+  padding: 5px 10px;
+}
+.test-header p {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 18px;
+}
+
+/* Card */
+.test-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid gray;
+  border-radius: 10px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  min-height: 30vh;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/*Buttons*/
+.test-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+.correct-button {
+  background-color: #4caf50;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.correct-button:hover {
+  background-color: #45a049;
+  border: none;
+}
+
+.incorrect-button {
+  background-color: #dd564d;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.incorrect-button:hover {
+  background-color: #d32f2f;
+  border: none;
+}
+
+/* Test complete */
+.test-complete-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.test-complete-buttons button {
+  padding: 5px 10px;
+}

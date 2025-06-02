@@ -1,3 +1,4 @@
+import "../pages/ViewQtn.css";
 import { useState, useEffect } from "react";
 
 function Test({ qtn, mode, setIsLearningInParent }) {
@@ -27,8 +28,6 @@ function Test({ qtn, mode, setIsLearningInParent }) {
       const randomId = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[randomId]] = [shuffled[randomId], shuffled[i]];
     }
-    console.log("Orginalais: ", arr);
-    console.log("Random: ", shuffled);
     return shuffled;
   };
 
@@ -46,9 +45,6 @@ function Test({ qtn, mode, setIsLearningInParent }) {
       setCompleted(true);
     }
   };
-  useEffect(() => {
-    console.log("Pirms/pec testa: ", wrongQuestions);
-  }, [completed, wrongQuestions]);
 
   //Show other side of the card
   const flipCard = () => {
@@ -95,19 +91,34 @@ function Test({ qtn, mode, setIsLearningInParent }) {
   return (
     <>
       <main className="ViewQtn-Test">
-        <h1>Learning! Current mode: {mode}</h1>
-        <button onClick={handleReturn}>Return</button>
-        {!flipped ? (
-          <h1>{curQuestion.question}</h1>
-        ) : (
-          <h1>{curQuestion.answer}</h1>
-        )}
-        <div>
-          <button onClick={() => handleNext(false)}>Incorrect</button>
-          <button onClick={flipCard}>
-            Show {flipped ? "question" : "anser"}
+        <div className="test-header">
+          <button onClick={handleReturn} className="leave">
+            Return
           </button>
-          <button onClick={() => handleNext(true)}>Correct</button>
+          <p>
+            {index + 1}/{questionsInUse.length}
+          </p>
+        </div>
+        <div className="test-card">
+          {!flipped ? (
+            <h1>{curQuestion.question}</h1>
+          ) : (
+            <h1>{curQuestion.answer}</h1>
+          )}
+        </div>
+        <div className="test-buttons">
+          <button
+            onClick={() => handleNext(false)}
+            className="incorrect-button"
+          >
+            Incorrect
+          </button>
+          <button onClick={flipCard}>
+            Show {flipped ? "question" : "answer"}
+          </button>
+          <button onClick={() => handleNext(true)} className="correct-button">
+            Correct
+          </button>
         </div>
       </main>
       {completed && (
@@ -116,19 +127,35 @@ function Test({ qtn, mode, setIsLearningInParent }) {
             {wrongQuestions.length === 0 ? (
               <>
                 <h2>All questions correct!</h2>
-                <button onClick={handleReturn}>Return</button>
-                <button onClick={handleTryAgain}>Try again</button>
+                <h3>
+                  {questionsInUse.length - wrongQuestions.length}/
+                  {questionsInUse.length}
+                </h3>
+                <div className="test-complete-buttons">
+                  <button onClick={handleReturn} className="leave">
+                    Return
+                  </button>
+                  <button onClick={handleTryAgain}>Try again</button>
+                </div>
               </>
             ) : (
               <>
                 <h2>Looks like you had some trouble!</h2>
-                <button onClick={handleReturn}>Return</button>
-                <button onClick={handleTryAgain}>Try again</button>
-                {questionsInUse.length !== wrongQuestions.length && (
-                  <button onClick={handleWrong}>
-                    Answer incorrect questions
+                <h3>
+                  {questionsInUse.length - wrongQuestions.length}/
+                  {questionsInUse.length}
+                </h3>
+                <div className="test-complete-buttons">
+                  <button onClick={handleReturn} className="leave">
+                    Return
                   </button>
-                )}
+                  <button onClick={handleTryAgain}>Try again</button>
+                  {questionsInUse.length !== wrongQuestions.length && (
+                    <button onClick={handleWrong}>
+                      Answer incorrect questions
+                    </button>
+                  )}
+                </div>
               </>
             )}
           </div>

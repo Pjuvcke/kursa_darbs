@@ -8,30 +8,32 @@ import {
 import data from "../data";
 
 const initialState = {
-  user: "Guest",
   data,
   test_data: [],
   isLoaded: false,
+  lastUsed: 0,
 };
 
 const mainSlice = createSlice({
   name: "main",
   initialState,
   reducers: {
-    addQuestionnaire: (state, action) => {
-      console.log("add: ", action.payload);
-      state.test_data.push(action.payload);
-    },
     getData(state, action) {
       state.test_data = action.payload;
     },
     toggleLoaded(state, action) {
       state.isLoaded = action.payload;
     },
+    setLastUsed(state, action) {
+      state.lastUsed = action.payload;
+    },
+    removeLast(state) {
+      state.test_data = [];
+    },
   },
 });
 
-export const { addQuestionnaire, getData, addData, toggleLoaded } =
+export const { getData, addData, toggleLoaded, setLastUsed, removeLast } =
   mainSlice.actions;
 
 export default mainSlice.reducer;

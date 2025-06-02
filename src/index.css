@@ -9,10 +9,6 @@ body {
   min-width: 400px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
 br {
   line-height: 0;
   display: inline;
@@ -50,7 +46,6 @@ textarea {
 /* HEADER */
 header {
   background-color: rgba(226, 205, 19);
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -61,10 +56,19 @@ header h2 a {
   cursor: pointer;
   border: 2px solid rgb(0, 0, 0, 0.5);
   border-radius: 5px;
+  margin-right: 50px;
 }
-header h2 a:hover,
-header h2 a:focus-visible {
+header h2 .active:hover,
+header h2 .active:focus-visible {
   background-color: rgb(245, 237, 165);
+}
+header h3 a {
+  padding: 2px 5px;
+}
+header h3 .active:hover,
+header h3 .active:focus-visible {
+  background-color: rgb(245, 237, 165);
+  border-radius: 5px;
 }
 
 /* MODAL STYLE */

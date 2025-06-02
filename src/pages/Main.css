@@ -47,15 +47,30 @@
   border-radius: 8px;
   padding: 10px;
   box-sizing: border-box;
-
   background-color: rgb(211, 211, 211, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   outline: none;
 }
 .qtn-small:hover,
 .qtn-small:focus-visible {
   background-color: rgb(211, 211, 211, 0.2);
   border: 2px solid rgb(0, 0, 0, 0.5);
+}
+
+/* Error */
+.error {
+  color: red;
+}
+
+.error-add {
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.error-manage {
+  margin: 0;
+  margin-bottom: 5px;
 }
